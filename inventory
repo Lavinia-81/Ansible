@@ -6,3 +6,6 @@
 
 [file_servers]
 172.17.0.1 
+
+[workstations]
+172.17.0.2

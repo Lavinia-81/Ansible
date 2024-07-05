@@ -4,19 +4,19 @@
   become: true
   pre_tasks:
 
-  - name: update repo cache (CentOS)
+  - name: install updates (CentOS)
     tags: always
     dnf:
+      update_only: yes
       update_cache: yes
-    changed_when: false
     when: ansible_distribution == "CentOS"
 
 
-  - name: update repo cache (Ubuntu)
+  - name: install updates (Ubuntu)
     tags: always
     apt:
+      upgrade: dist
       update_cache: yes
-    changed_when: false
     when: ansible_distribution == "Ubuntu"
 
 
@@ -103,41 +103,23 @@
   become: true
   tasks:
 
+  - name: create gaya user
+    tags: always
+    user:
+      name: gaya
+      groups: root
+
   - name: add ssh key for gaya
     tags: always
     authorized_key:
       user: gaya
       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICx5Z1x1QnJafVtQ+6PLnmPLWJuj0dPwsGbQKEIo+UZZ @ansible@"
 
-
-
-
-- hosts: workstations
-  become: true
-  tasks:
-
-  - name: install unzip
-    package:
-      name: unzip
-
-
-  - name: install terraform
-    unarchive:
-      src: https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
-      dest: /usr/local/bin
-      remote_src: yes
-      mode: 0755
+  - name: add sudoers file for gaya
+    tags: always
+    copy:
+      src: sudoer_gaya
+      dest: /etc/sudoers.d/gaya
       owner: root
       group: root
-
-
-
-- hosts: samba package
-  become: true
-  tasks:
-
-  - name: install samba package
-    package:
-      name: samba
-      state: latest
-
+      mode: 0440
