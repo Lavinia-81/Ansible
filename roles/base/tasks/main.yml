@@ -1,0 +1,5 @@
+- name: add ssh key for gaya
+  tags: always
+  authorized_key:
+    user: gaya
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICx5Z1x1QnJafVtQ+6PLnmPLWJuj0dPwsGbQKEIo+UZZ @ansible@"
