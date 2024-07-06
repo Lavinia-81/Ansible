@@ -35,7 +35,7 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
-  - name: install php for CentOS servers
+  - name: install httpd and php for CentOS servers
     tags: apache,centos.httpd
     dnf:
       name:
@@ -137,6 +137,7 @@
   tasks:
 
   - name: install samba package
+    tags: samba
     package:
       name: samba
       state: latest
